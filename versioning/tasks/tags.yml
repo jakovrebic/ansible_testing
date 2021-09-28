@@ -1,0 +1,13 @@
+---
+- name: Create new tag
+  command: "git tag {%if update_git_tag %}--force{% endif %} {{git_tag}}"
+  args:
+    warn: false
+    chdir: "{{git_url}}"
+
+- name: Push tags
+  command: "git push {%if update_git_tag %}--force{% endif %} {{git_remote}} tag {{git_tag}}"
+  args:
+    warn: false
+    chdir: "{{git_url}}"
+

@@ -1,0 +1,38 @@
+---
+- name: Set repository path
+  set_fact:
+    git_repo_path: "{{ git_url | regex_search('/(.+).git') | regex_replace('.git', '') }}"
+
+- name: Add all new files to Git
+  shell: git add -A
+  args:
+    chdir: "{{ playbook_dir }}{{ git_repo_path }}"
+
+- name: Check Git status
+  shell: git status
+  args:
+    chdir: "{{ playbook_dir }}{{ git_repo_path }}"
+  register: git_add_status
+
+- name: Configure username for Git
+  shell: git config user.name "{{ git_username }}"
+  args:
+    chdir: "{{ playbook_dir }}{{ git_repo_path }}"
+  when: git_username is defined
+
+- name: Configure email for Git
+  shell: git config user.email "{{ git_email }}"
+  args:
+    chdir: "{{ playbook_dir }}{{ git_repo_path }}"
+  when: git_email is defined
+
+- name: Commit changes to Git
+  shell: git commit -a -m "'{{ git_msg }}'"
+  args:
+    chdir: "{{ playbook_dir }}{{ git_repo_path }}"
+  ignore_errors: true
+
+- name: Push changes to Git
+  shell: git push --force
+  args:
+    chdir: "{{ playbook_dir }}{{ git_repo_path }}"

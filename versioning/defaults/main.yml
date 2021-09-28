@@ -1,0 +1,14 @@
+---
+# defaults file for versioning
+
+git_repo_location: .
+git_remote: origin
+update_git_tag: false
+
+git_url: 'git@github.com:jakovrebic/ansible_testing.git'
+git_key: ''
+git_branch: 'main'
+git_msg: 'update files with ansible'
+git_remove_local: false
+git_username: jakovrebic
+git_email: jakov.rebic@yahoo.com
